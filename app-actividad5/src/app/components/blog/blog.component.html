@@ -1,12 +1,14 @@
-<h1>Actividad 5 - Blog de libros </h1>
-<hr>
+<!-- formulario -->
+<div class="formulario">
+    <h2>Añadir nuevo libro</h2>
+    <input type="text" placeholder="Introduce el título del libro" [(ngModel)]="newLibro.titulo">
+    <input type="text" placeholder="Introduce el autor del libro" [(ngModel)]="newLibro.autor">
+    <input type="text" placeholder="Introduce el enlace a la portada del libro" [(ngModel)]="newLibro.url">
+    <input type="text" placeholder="Introduce la descripción del libro" [(ngModel)]="newLibro.descripcion">
+    <input type="text" placeholder="Introduce la fecha de publicación del libro" [(ngModel)]="newLibro.fechaPublicacion">
+    <button (click)="agregar()">AÑADIR</button>
+</div>
 
-<section>
-    <h2>Agregar un nuevo libro</h2>
-
-</section>
-
-<section>
-    <h2>Lista de libros</h2>
-
-</section>
+<!-- listado de libros -->
+ <h2>Biblioteca de libros</h2>
+<div class="biblioteca" [innerHTML]="libros"></div>
