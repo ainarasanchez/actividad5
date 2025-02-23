@@ -1,1 +1,10 @@
-<app-blog></app-blog>
+<header>
+  <h1>Actividad 5 - Blog de libros</h1>
+  <hr>
+</header>
+
+<main class="flex">
+  <section> 
+    <app-blog [listaLibros]= "arrLibros" (formularioEnviado)="nuevoLibro($event)"></app-blog>
+  </section>
+</main>
