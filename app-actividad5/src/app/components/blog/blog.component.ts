@@ -1,17 +1,55 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Input, Output, SimpleChanges } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { ILibro } from '../../interfaces/ilibro';
+
 
 @Component({
   selector: 'app-blog',
-  imports: [],
+  imports: [FormsModule],
   templateUrl: './blog.component.html',
   styleUrl: './blog.component.css'
 })
-export class BlogComponent {
 
-  arrLibros: ILibro[] = [
-    {titulo: "El señor de los anillos", autor: "J.R.R. Tolkien", url: "https://www.lamarmota.es/wp-content/uploads/senor-de-los-anillos.jpeg", descripcion: "Libro de fantasia", fechaPublicacion: "1954"}
-    ,{titulo: "El Principito", autor: "Antoine de Saint-Exupéry", url: "https://m.media-amazon.com/images/I/71AVK5VIAzL._AC_UF1000,1000_QL80_.jpg", descripcion: "Cuento filosófico", fechaPublicacion: "06/04/1943"}
-    ,{titulo: "1984", autor: "George Orwell", url: "https://m.media-amazon.com/images/I/71sOSrd+JxL._AC_UF894,1000_QL80_.jpg", descripcion: "Clásico sobre la vigilancia y el control", fechaPublicacion: "08/06/1949"}
-  ]
+export class BlogComponent {
+  newLibro: ILibro = { titulo: '', autor: '', url: '', descripcion: '', fechaPublicacion: ''}
+  @Output() formularioEnviado: EventEmitter<ILibro> = new EventEmitter();
+  @Input() listaLibros: ILibro[] = []
+  libros: string = ""
+
+  ngOnInit() {
+    this.mostrar()
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['listaLibros']) {
+      this.mostrar();
+    }
+  }
+
+  agregar() {
+    if (!this.newLibro.titulo || !this.newLibro.autor || !this.newLibro.url || !this.newLibro.descripcion || !this.newLibro.fechaPublicacion) {
+      alert("Todos los campos son obligatorios");
+      return;
+    }
+
+    this.formularioEnviado.emit(this.newLibro)
+    this.newLibro = { titulo: '', autor: '', url: '', descripcion: '', fechaPublicacion: ''}
+    this.mostrar()
+  }
+  
+  
+  mostrar() {
+    this.libros = ""
+    this.listaLibros.forEach((libro: ILibro) => {
+      this.libros += 
+      `<figure class="libro"> 
+        <img src="${libro.url}" alt="${libro.titulo}"> 
+        <h3>${libro.titulo}</h3>
+        <p>Autor: <strong>${libro.autor}</strong></p>
+        <p>Descripción: ${libro.descripcion}</p>
+        <p>Fecha de publicación: <em>${libro.fechaPublicacion}</em></p>
+      </figure>`
+    })
+  }
+
 }
